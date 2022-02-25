@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Личный кабинет{% endblock title %}
+{% block content %}
+<div id="content" class='container mt-3'>
+  <h4 class="text-center fs-5">Последние добавленные книги:</h4>
+  <div class="row row-cols-1 row-cols-md-5 g-4">
+  {% for book in books %}
+        <div class="col">
+          <div class="card">
+            <img src="{{ book.image.url }}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Название: {{ book.title }}</h5>
+              
+              <p class="card-text">Автор: {{ book.author }}</p>
+              <p class="card-text">Связь с автором: {{ book.link }}</p>
+              <a href="{% get_media_prefix %}{{ book.pdf_book }}" target="_blank">Читать</a>
+              <p class="card-text"><small class="text-muted">Дата публикации: {{ book.pub_date }}</small></p>
+              
+
+    {% if request.user.is_authenticated %}
+
+      {% if fav %}
+      <div id="favourite-section"><a href="{% url 'favourite_add' book.id %}"
+        class="btn btn-outline-primary mt-2">Удалить из избранных</a>
+      </div>
+        {% else %}
+      <a href="{% url 'favourite_add' book.id %}" class="btn btn-outline-primary">Добвить в избранное</a>
+      {% endif %}
+    {% endif %}
+      
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        </div>
+  <h4 class="text-center fs-5">Добавленные в избранное:</h4>
+<div class="row row-cols-1 row-cols-md-2 g-4">
+  {% for book in new %}
+  <div class="col">
+    <div class="card">
+      <img src="{{ book.image.url }}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Название: {{ book.title }}</h5>
+        <p class="card-text">Описание: {{ book.description }}</p>
+        <p class="card-text">Автор: {{ book.author }}</p>
+        <p class="card-text">Связь с автором: {{ book.link }}</p>
+        <a href="{% get_media_prefix %}{{ book.pdf_book }}" target="_blank">Читать</a>
+        
+        <a class="text-dark" href="{{book.get_absolute_url}}"></a>
+        
+        <p class="card-text"><small class="text-muted">Дата публикации: {{ book.pub_date }}</small></p>
+        
+
+        <div id="favourite-section"><a href="{% url 'favourite_add' book.id %}"
+            class="btn btn-outline-primary mt-2">Удалить из избранных</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+    </div>
+    </div>
+
+
+
+
+{% endblock %}

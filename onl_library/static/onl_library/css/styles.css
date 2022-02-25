@@ -1,0 +1,36 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 60px;
+    background-color: #c7fac7;
+}
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #F0F0E9;
+}
+.form {
+    display: flex;
+    margin: 20px auto;
+    justify-content: center;
+}
+.form-registration, .form-label {
+    display: flex;
+    flex-direction: column;
+}
+.form-error {
+    position: absolute;
+    margin-top: 270px;
+}
+.form-button {
+    width: 180px;
+}
+#rund_book {
+    width: 45%;
+    margin: 0 auto;
+}

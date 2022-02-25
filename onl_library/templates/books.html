@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Книги{% endblock title %}
+{% block content %}
+        <div id="content" class='container mt-3'>
+        <h4 class="text-center mt-3">Книги</h4>
+        <hr>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+          
+
+            {% for book in page_obj %}
+            <div class="col">
+              <div class="card">
+                <img src="{{ book.image.url }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Название: {{ book.title }}</h5>
+                  <p class="card-text">Описание: {{ book.description }}</p>
+                  <p class="card-text">Автор: {{ book.author }}</p>
+                  <p class="card-text">Связь с автором: {{ book.link }}</p>
+                  <a href="{% get_media_prefix %}{{ book.pdf_book }}" target="_blank">Читать</a>
+                  <p class="card-text"><small class="text-muted">Дата публикации: {{ book.pub_date }}</small></p>
+                  {% if request.user.is_authenticated %}
+
+                  {% if fav %}
+                  <div id="favourite-section"><a href="{% url 'favourite_add' book.id %}"
+                    class="btn btn-outline-primary mt-2">Удалить из избранных</a>
+                  </div>
+                    {% else %}
+                  <a href="{% url 'favourite_add' book.id %}" class="btn btn-outline-primary">Добвить в избранное</a>
+                  {% endif %}
+                {% endif %}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+
+
+
+
+
+            <nav aria-label="...">
+              <ul class="pagination" class="text-center">
+                  {% if page_obj.has_previous %}
+                  <li class="page-item">
+                      <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-disabled="true">Предыдущая</a>
+                  </li>
+                  <li class="page-item">
+                      <a class="page-link" href="?page=1">1</a>
+                  </li>
+                  {% endif %}
+                <li class="page-item active" aria-current="page">
+                  <a class="page-link" href="{{ page_obj.number }}">{{ page_obj.number }}</a>
+                </li>
+                  {% if page_obj.has_next %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующее</a>  
+                    </li>
+                  {% endif %}
+              </ul>
+            </nav>
+
+          
+        </div>
+        </div>
+        {% endblock content %}
